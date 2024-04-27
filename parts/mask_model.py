@@ -4,6 +4,7 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 import io
+import copy
 
 import torch
 # from torch import nn
@@ -51,7 +52,17 @@ def get_masked_image(uploaded_file, model, device='cpu'): # Check for GPU or CPU
 def mask_images(uploaded_files, checkpoint_path, device):
     segmented_files = []
     model = load_model(checkpoint_path, device)
-    for uploaded_file in uploaded_files:
+    uploaded_files_copy = [copy.copy(uploaded_file) for uploaded_file in st.session_state.uploaded_files]
+
+    for i,uploaded_file in enumerate(uploaded_files):
         segmented_file = get_masked_image(uploaded_file, model, device)
+        if st.session_state.edited == True:
+            shape = uploaded_files_copy[i].size
+        else:
+            image_data = uploaded_files_copy[i].read()
+            image = Image.open(io.BytesIO(image_data))
+            shape = image.size
+        segmented_file = segmented_file.resize(shape)
         segmented_files.append(segmented_file)
+    del uploaded_files_copy
     return segmented_files
