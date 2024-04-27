@@ -75,7 +75,7 @@ def enhance_uploads_page():
         if (st.session_state.edited == True):
             uploaded_files_copy = [copy.copy(uploaded_file) for uploaded_file in st.session_state.uploaded_files]
             for i in range(len(uploaded_files_copy)):
-                if uploaded_files_copy[i].name in st.session_state.edited_images:
+                if st.session_state.edited_images[uploaded_files_copy[i].name] != 0:
                     st.session_state.uploaded_files[i] = st.session_state.edited_images[uploaded_files_copy[i].name]
                 else:
                     image_data = uploaded_files_copy[i].read()
