@@ -126,7 +126,7 @@ st.title("HistologyNet")
 st.markdown('''##### <span style="color:gray">Self-Supervised Segmentation Masking for Histology Images</span>
             ''', unsafe_allow_html=True)
 
-tab_instr, tab_upload = st.tabs(["Instructions", "Upload"])
+tab_upload, tab_instr = st.tabs(["Upload", "Instructions"])
 
 #-----------------
 # Instructions Tab
