@@ -11,4 +11,4 @@ def sb():
 
     st.sidebar.markdown(" ## About HistologyNet")    
     st.sidebar.markdown("We've trained a model that achieves binary segmentation of histology images. Our model is self-supervised and makes use of unlabelled images, without the need for extensive manual annotation. To see the custom results for your images, head over to the uploads section!")           
-    st.sidebar.info("Our code for segmentation as well as webpage is available on [Github](https://github.com/ParasBedi298/image-conversion-web-app.git).", icon="ℹ️")
+    st.sidebar.info("Our code for segmentation as well as webpage is available on [Github](https://github.com/dhruvsingla273/HistologyNet-WebApp.git).", icon="ℹ️")

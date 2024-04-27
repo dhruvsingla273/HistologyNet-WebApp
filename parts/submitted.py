@@ -36,7 +36,7 @@ def submitted_uploads_page():
         del uploaded_files_copy
         del segmented_files_copy
 
-    st.write("Segmentation Results: ")
+    st.subheader("Segmentation Results: ")
     st.write("")
 
     cols = st.columns(2)
@@ -93,10 +93,11 @@ def download_images(images, masks, names):
     
     # Create a download link for the zip file
     st.download_button(
-        label="Download Images and Masks",
+        label="Download Results",
         data=zip_buffer,
         file_name="images_and_masks.zip",
-        mime="application/zip"
+        mime="application/zip",
+        help="Click here to download a zip file with original images and masks"
     )
 
 # import streamlit as st
