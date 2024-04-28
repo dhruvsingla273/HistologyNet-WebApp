@@ -7,24 +7,20 @@ import io
 import copy
 
 import torch
-# from torch import nn
 from torchvision import transforms
-from torch.optim import Adam
 
-
-def load_model(path, device='cpu'): # Check for GPU or CPU
+# Function for loading model
+def load_model(path, device='cpu'): 
     model = ternausnet.models.UNet11() 
-    # optimizer = Adam(model.parameters(), lr=0.001)
     checkpoint = torch.load(path, map_location=torch.device(device))
     model.load_state_dict(checkpoint['model_state_dict'])
-    # optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-
     model = model.to(device)
 
     return model
 
-
-def get_masked_image(uploaded_file, model, device='cpu'): # Check for GPU or CPU
+# Function to get segmentation mask for each Image
+def get_masked_image(uploaded_file, model, device='cpu'):
+    # Converting uploaded_file to PIL object if needed
     if st.session_state.edited == False:
         image_data = uploaded_file.read()
         input_image = Image.open(io.BytesIO(image_data))
@@ -38,6 +34,7 @@ def get_masked_image(uploaded_file, model, device='cpu'): # Check for GPU or CPU
     ])
     input_tensor = transform(input_image).unsqueeze(0).to(device)
 
+    # Passing the uploaded_file to the model
     model.eval()  
     with torch.no_grad():
         output_tensor = model(input_tensor)
@@ -48,7 +45,7 @@ def get_masked_image(uploaded_file, model, device='cpu'): # Check for GPU or CPU
 
     return output_image
 
-
+# Function to generate segmentation masks for multiple images
 def mask_images(uploaded_files, checkpoint_path, device):
     segmented_files = []
     model = load_model(checkpoint_path, device)
@@ -62,7 +59,7 @@ def mask_images(uploaded_files, checkpoint_path, device):
             image_data = uploaded_files_copy[i].read()
             image = Image.open(io.BytesIO(image_data))
             shape = image.size
-        segmented_file = segmented_file.resize(shape)
+        segmented_file = segmented_file.resize(shape) # Ensuring Output is of same size as input
         segmented_files.append(segmented_file)
     del uploaded_files_copy
     return segmented_files

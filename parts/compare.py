@@ -4,8 +4,9 @@ import io
 import copy
 from streamlit_image_comparison import image_comparison
 
+# Function for Visualising masks using slider
 def compare_images():
-
+    # Buttons for Navigating
     btn1, btn2, _, _ = st.columns(4)
     if btn1.button("Back to Normal View"):
         st.session_state.page = "submitted_uploads"
@@ -15,6 +16,7 @@ def compare_images():
         st.session_state.uploaded_files = None
         st.rerun()
 
+    # Image Comparison Using Slider
     _, col2, _ = st.columns([1,4,1])
     uploaded_files_copy = [copy.copy(uploaded_file) for uploaded_file in st.session_state.uploaded_files] 
     segmented_files_copy = [copy.copy(segmented_file) for segmented_file in st.session_state.segmented_files] 
